@@ -1,2 +1,1 @@
-# AI-Powered-Mood-Weather-Music-Generator
-AI-Powered Mood &amp; Weather Music Generator
+### An AI-powered music recommendation system that suggests songs and Spotify playlists based on your mood and the weather
