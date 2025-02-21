@@ -91,5 +91,8 @@ The Flask server will start at `http://127.0.0.1:5000/`.
 Feel free to fork the repo, create a feature branch, and submit a pull request!
 
 ## License
-MIT License
+Apache2.0 license
+
+## Author
+Ayush Gorlawar
 
