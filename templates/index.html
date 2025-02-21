@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood & Weather Music Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 AI-Powered Mood & Weather Music 🎶</h1>
+        
+        <label for="city">Enter Your City:</label>
+        <input type="text" id="city" placeholder="E.g., Mumbai">
+
+        <label for="mood">Describe Your Mood:</label>
+        <input type="text" id="mood" placeholder="E.g., Happy, Sad, Relaxed">
+
+        <button onclick="getMusic()">Get Playlist</button>
+
+        <h2 id="result"></h2>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
