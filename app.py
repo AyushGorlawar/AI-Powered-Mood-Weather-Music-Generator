@@ -107,3 +107,60 @@ def get_spotify_playlist(mood, weather):
 
     return f"{mood_playlist_name} + {weather_playlist_name}"
 
+
+@app.route("/login")
+def login():
+    auth_url = sp_oauth.get_authorize_url()
+    return redirect(auth_url)
+
+@app.route("/callback")
+def callback():
+    try:
+        session.clear()
+        code = request.args.get("code")
+        token_info = sp_oauth.get_access_token(code)
+
+        if not token_info:
+            return "⚠️ Failed to get token", 400
+
+        # ✅ Only Clear Session if Token is Invalid
+        if "access_token" not in token_info:
+            print("❌ Error getting access token.")
+            return "Error logging in with Spotify", 400
+
+        # Save Token
+        session["token_info"] = token_info
+        print("✅ Token Saved:", token_info)
+
+        return redirect(url_for("home"))
+
+    except Exception as e:
+        print("❌ Callback Error:", str(e))
+        return "Internal Server Error", 500
+ 
+
+@app.route("/get_music", methods=["POST"])
+def get_music():
+    try:
+        data = request.json
+        print("📩 Received Data:", data)
+
+        city = data.get("city")
+        mood_input = data.get("mood")
+
+        if not city:
+            return jsonify({"error": "City is required"}), 400
+
+        weather = get_weather(city)
+        mood = detect_mood(mood_input) if mood_input else "relaxed"
+
+        recommended_playlist = get_spotify_playlist(mood, weather)
+
+        return jsonify({"mood": mood, "weather": weather, "playlist": recommended_playlist})
+
+    except Exception as e:
+        print("❌ Error in /get_music:", str(e))
+        return jsonify({"error": "Internal Server Error", "message": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
